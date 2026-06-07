@@ -34,8 +34,7 @@ Here is an overview of the basic concepts in Fresh:
   assets
 - [**File Routing**](/docs/concepts/file-routing) - Convention-based routing
   from the filesystem
-- [**Error Pages**](/docs/concepts/error-pages) - Convention-based routing
-  from the filesystem
+- [**Error Pages**](/docs/concepts/error-pages) - Customizing error pages
 
 Advanced concepts:
 
