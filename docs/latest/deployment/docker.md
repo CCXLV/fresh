@@ -35,9 +35,8 @@ ENV DENO_DEPLOYMENT_ID=${GIT_REVISION}
 
 WORKDIR /app
 
-# Copy all the necessary directories
+# Copy configuration and compiled production artifacts
 COPY --from=build /app/deno.json /app/deno.lock ./
-COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/_fresh ./_fresh
 
 EXPOSE 8000
