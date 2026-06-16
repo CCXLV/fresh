@@ -18,10 +18,8 @@ correctly.
 Here is an example `Dockerfile` for a Fresh project:
 
 ```dockerfile Dockerfile
-FROM denoland/deno:latest
-
-ARG GIT_REVISION
-ENV DENO_DEPLOYMENT_ID=${GIT_REVISION}
+# Build stage
+FROM denoland/deno:latest AS build
 
 WORKDIR /app
 
@@ -29,8 +27,22 @@ COPY . .
 RUN deno install --allow-scripts
 RUN deno task build
 
+# Runtime stage
+FROM denoland/deno:latest AS runtime
+
+ARG GIT_REVISION
+ENV DENO_DEPLOYMENT_ID=${GIT_REVISION}
+
+WORKDIR /app
+
+# Copy all the necessary directories
+COPY --from=build /app/deno.json /app/deno.lock ./
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/_fresh ./_fresh
+
 EXPOSE 8000
 
+# You can directly run `deno task start` in most cases
 CMD ["deno", "serve", "-A", "_fresh/server.js"]
 ```
 
